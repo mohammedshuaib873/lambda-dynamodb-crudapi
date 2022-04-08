@@ -1,0 +1,19 @@
+{
+  "name": "lambdaserverlessdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1109.0",
+    "chai": "^4.3.6",
+    "got": "^12.0.3",
+    "mocha": "^9.2.2",
+    "nock": "^13.2.4",
+    "uuid": "^8.3.2"
+  }
+}

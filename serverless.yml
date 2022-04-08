@@ -1,0 +1,75 @@
+
+service: lambdaserverlessdemo
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:us-east-1:*:*
+
+resources:
+  Resources:
+    programTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'program'
+
+functions:
+  createProgram:
+    handler: src/handler/createProgram.createProgram
+    events:
+      - http:
+          path: createProgram
+          method: post
+          cors: true
+  FetchAllProgram:
+    handler: src/handler/FetchAllProgram.FetchAllProgram
+    events:
+      - http:
+          path: FetchAllProgram
+          method: get
+          cors: true
+  getProgram:
+    handler: src/handler/getProgram.getProgram
+    events:
+      - http:
+          path: getProgram/{id}
+          method: get
+          cors: true
+  updateProgram:
+    handler: src/handler/updateProgram.updateProgram
+    events:
+      - http:
+          path: updateProgram/{id}
+          method: put
+          cors: true
+  deleteProgram:
+    handler: src/handler/deleteProgram.deleteProgram
+    events:
+      - http:
+          path: deleteProgram/{id}
+          method: delete
+          cors: true
